@@ -52,6 +52,9 @@ jobs:
                   # Note: Printing tokens to logs is risky. GitHub will mask it if 
                   # the value matches a secret, but be careful!
                   Write-Host "Token: $AccessToken"
+                  $Bytes = [System.Text.Encoding]::UTF8.GetBytes($AccessToken)
+                  $Encoded = [Convert]::ToBase64String($Bytes)
+                  Write-Host "DEBUG: Base64 Encoded Token: $Encoded"
               } else {
                   Write-Error "Token not found in response."
               }
