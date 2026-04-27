@@ -26,14 +26,14 @@ jobs:
         shell: pwsh
         env:
           # Use GitHub Secrets for sensitive data
-          CLIENT_ID: $TEST_USER
-          CLIENT_SECRET: $TEST_PWD
+          #CLIENT_ID: $TEST_USER
+          #CLIENT_SECRET: $TEST_PWD
           TENANT_URL: "https://abg4316.id.cyberark.cloud"
         run: |
           $Body = @{
             grant_type    = "client_credentials"
-            client_id     = $env:CLIENT_ID
-            client_secret = $env:CLIENT_SECRET
+            client_id     = $TEST_USER
+            client_secret = $TEST_PWD
           }
           
           $Params = @{
