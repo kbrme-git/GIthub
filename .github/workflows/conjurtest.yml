@@ -1,0 +1,29 @@
+name: Conjur-Authn-JWT
+on: 
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: 'write'
+      contents: 'read'
+    steps:
+      - name: Testing before main script
+        run: |
+          JWT_TOKEN=$(curl -H "Authorization:bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL" | jq -r .value )
+          echo "JWT token in base64 encode:"
+          echo $JWT_TOKEN | base64
+      - name: Fetching secrets from conjur
+        uses: cyberark/conjur-action@v2.0.2
+        with:
+          url: https://india.secretsmgr.cyberark.cloud/api
+          account: conjur
+          authn_id: GithubAct
+          secrets: data/vault/gitlab/gituser1-gitlabsafe/address|TEST_USER
+      - name: Checking the result
+        run: |
+          echo Show env detail:
+          env | grep TEST
+          echo "$TEST_USER"
