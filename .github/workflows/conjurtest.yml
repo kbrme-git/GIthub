@@ -32,7 +32,7 @@ jobs:
         run: |
           $Body = @{
             grant_type    = "client_credentials"
-            client_id     = $TEST_USER
+            client_id     = "api-venu@india"
             client_secret = $TEST_PWD
           }
           
