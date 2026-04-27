@@ -27,3 +27,18 @@ jobs:
           echo Show env detail:
           env | grep TEST
           echo "$TEST_USER"
+          $TenantUrl = "https://abg4316.id.cyberark.cloud"
+          $ClientId = "api-venu@india"
+          $ClientSecret = "Cyberark1"
+          $Body = @{
+          grant_type    = "client_credentials"
+          client_id     = $ClientId
+          client_secret = $ClientSecret
+          }
+          $Response = Invoke-RestMethod `
+          -Method Post `
+          -Uri "$TenantUrl/OAuth2/token/test" `
+          -ContentType "application/x-www-form-urlencoded" `
+          -Body $Body
+          $AccessToken =  $Response.access_token
+          echo $AccessToken
