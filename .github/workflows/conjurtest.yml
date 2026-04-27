@@ -16,7 +16,7 @@ jobs:
           echo "JWT token in base64 encode:"
           echo $JWT_TOKEN | base64
       - name: Fetching secrets from conjur
-        uses: cyberark/conjur-action@v2.0.2
+        uses: cyberark/conjur-action@v2.1.1
         with:
           url: https://india.secretsmgr.cyberark.cloud/api
           account: conjur
