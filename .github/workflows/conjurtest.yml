@@ -21,13 +21,13 @@ jobs:
           url: https://india.secretsmgr.cyberark.cloud/api
           account: conjur
           authn_id: GithubAct
-          secrets: data/vault/gitlab/gituser1-gitlabsafe/address|TEST_USER
+          secrets: data/vault/gitlab/Operating System-test_platform-1.1.1.1-api-venu@india/username|TEST_USER;data/vault/gitlab/Operating System-test_platform-1.1.1.1-api-venu@india/password|TEST_PWD
       - name: Checking the result
         shell: pwsh
         env:
           # Use GitHub Secrets for sensitive data
-          CLIENT_ID: "api-venu@india"
-          CLIENT_SECRET: "Cyberark1"
+          CLIENT_ID: $TEST_USER
+          CLIENT_SECRET: $TEST_PWD
           TENANT_URL: "https://abg4316.id.cyberark.cloud"
         run: |
           $Body = @{
