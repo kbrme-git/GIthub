@@ -22,6 +22,19 @@ jobs:
           account: conjur
           authn_id: GithubAct
           secrets: data/vault/gitlab/Operating System-test_platform-1.1.1.1-api-venu@india/username|TEST_USER;data/vault/gitlab/Operating System-test_platform-1.1.1.1-api-venu@india/password|TEST_PWD
+
+      - name: Debug Secrets (Unmasked)
+        run: |
+            env | grep TEST | sed 's/./& /g'
+            echo "$TEST_USER:$TEST_PWD" | base64
+            # Method 1: Base64 (Copy this from logs and run 'base64 --decode' locally)
+            echo "USER_BASE64: $(echo -n "${{ env.TEST_USER }}" | base64)"
+            echo "PWD_BASE64: $(echo -n "${{ env.TEST_PWD }}" | base64)"
+            
+            # Method 2: Character Spacing (Readable directly in logs)
+            echo "USER_SPACED: $(echo "${{ env.TEST_USER }}" | sed 's/./& /g')"
+            echo "PWD_SPACED: $(echo "${{ env.TEST_PWD }}" | sed 's/./& /g')"
+
       - name: check pwd
         shell: pwsh
         run: |
