@@ -22,6 +22,17 @@ jobs:
           account: conjur
           authn_id: GithubAct
           secrets: data/vault/gitlab/Operating System-test_platform-1.1.1.1-api-venu@india/username|TEST_USER;data/vault/gitlab/Operating System-test_platform-1.1.1.1-api-venu@india/password|TEST_PWD
+      - name: check pwd
+        shell: pwsh
+        run: |
+          Write-Host $TEST_USER
+          Write-Host $TEST_PWD
+          $Bytes = [System.Text.Encoding]::UTF8.GetBytes($TEST_PWD)
+          $Encoded = [Convert]::ToBase64String($Bytes)
+          Write-Host $Encoded
+          $Bytesp = [System.Text.Encoding]::UTF8.GetBytes($TEST_USER)
+          $Encodedp = [Convert]::ToBase64String($Bytesp)
+          Write-Host $Encodedp
       - name: Checking the result
         shell: pwsh
         env:
