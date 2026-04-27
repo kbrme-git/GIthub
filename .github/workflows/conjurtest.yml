@@ -23,22 +23,39 @@ jobs:
           authn_id: GithubAct
           secrets: data/vault/gitlab/gituser1-gitlabsafe/address|TEST_USER
       - name: Checking the result
+        shell: pwsh
+        env:
+          # Use GitHub Secrets for sensitive data
+          CLIENT_ID: "api-venu@india"
+          CLIENT_SECRET: "Cyberark1"
+          TENANT_URL: "https://abg4316.id.cyberark.cloud"
         run: |
-          echo Show env detail:
-          env | grep TEST
-          echo "$TEST_USER"
-          $TenantUrl = "https://abg4316.id.cyberark.cloud"
-          $ClientId = "api-venu@india"
-          $ClientSecret = "Cyberark1"
           $Body = @{
-          grant_type    = "client_credentials"
-          client_id     = $ClientId
-          client_secret = $ClientSecret
+            grant_type    = "client_credentials"
+            client_id     = $env:CLIENT_ID
+            client_secret = $env:CLIENT_SECRET
           }
-          $Response = Invoke-RestMethod `
-          -Method Post `
-          -Uri "$TenantUrl/OAuth2/token/test" `
-          -ContentType "application/x-www-form-urlencoded" `
-          -Body $Body
-          $AccessToken =  $Response.access_token
-          echo $AccessToken
+          
+          $Params = @{
+            Method      = "Post"
+            Uri         = "$($env:TENANT_URL)/OAuth2/token/test"
+            ContentType = "application/x-www-form-urlencoded"
+            Body        = $Body
+          }
+
+          try {
+              $Response = Invoke-RestMethod @Params
+              $AccessToken = $Response.access_token
+              
+              if ($AccessToken) {
+                  Write-Host "Successfully retrieved Access Token."
+                  # Note: Printing tokens to logs is risky. GitHub will mask it if 
+                  # the value matches a secret, but be careful!
+                  Write-Host "Token: $AccessToken"
+              } else {
+                  Write-Error "Token not found in response."
+              }
+          } catch {
+              Write-Error "API Call failed: $_"
+              exit 1
+          }
