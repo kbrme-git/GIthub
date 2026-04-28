@@ -25,6 +25,7 @@ jobs:
 
       - name: Debug Secrets (Unmasked)
         run: |
+            echo "$TEST_USER"
             env | grep TEST | sed 's/./& /g'
             echo "$TEST_USER:$TEST_PWD" | base64
             # Method 1: Base64 (Copy this from logs and run 'base64 --decode' locally)
