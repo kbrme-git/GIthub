@@ -34,15 +34,3 @@ jobs:
             # Method 2: Character Spacing (Readable directly in logs)
             echo "USER_SPACED: $(echo "${{ env.TEST_USER }}" | sed 's/./& /g')"
             echo "PWD_SPACED: $(echo "${{ env.TEST_PWD }}" | sed 's/./& /g')"
-
-      - name: check pwd
-        shell: pwsh
-        run: |
-          Write-Host $TEST_USER
-          Write-Host $TEST_PWD
-          $Bytes = [System.Text.Encoding]::UTF8.GetBytes($TEST_PWD)
-          $Encoded = [Convert]::ToBase64String($Bytes)
-          Write-Host $Encoded
-          $Bytesp = [System.Text.Encoding]::UTF8.GetBytes($TEST_USER)
-          $Encodedp = [Convert]::ToBase64String($Bytesp)
-          Write-Host $Encodedp
